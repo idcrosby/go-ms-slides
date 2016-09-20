@@ -40,6 +40,8 @@ Ian Crosby
 
 * Let's get Philosophical
 
+_"Write_programs_that_do_one_thing_and_do_it_well.”_
+
 : Organization and Culture must embrace
 : Automation. CI/CD
 : Each service should be...
@@ -113,12 +115,17 @@ __
 
 “... a collection of Go packages that help you build robust, reliable, maintainable microservices.”
 
-
+: Defines a layered structure for your services
+: Provides packages for MS related tooling/features
+: Encourages certain patterns and idioms
 
 
 * Architecture
 
 .image images/goKitOnion.png 500 _
+
+: Models microservice like an onion
+: Separates GoKits domain from Application/Business domain
 
 * Service Layer (1/2)
 
@@ -173,6 +180,9 @@ E.g. Logging
 - Service Discovery
 - Monitoring
 
+: To try out
+: Some of these roles played by orchestrator
+
 * Overall experience
 
 - Initial Learning Curve
@@ -195,3 +205,5 @@ E.g. Logging
 
 .link https://gokit.io gokit.io
 .link https://github.com/microservices-demo/
+
+: Call to arms
