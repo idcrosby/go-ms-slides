@@ -1,0 +1,197 @@
+Microservices with Go
+Who wants socks?
+21 Sep 2016
+Tags: golang, microservices, gokit
+
+Ian Crosby
+@idcrosby
+
+* Who am I?
+
+: Started with Go ~ 3 years ago
+: Writing demos, tools, testing
+
+* 
+
+.image images/gopher_cowboy.png
+
+: Go Cowboy.
+: hacky code. quick and dirty.
+: Now at CS, writing "production" Go
+
+* Who are You?
+
+: using Go in Production? tooling? spare time?
+: Go is great for builing quick pocs, little boilerplate
+
+* 
+
+.image images/gopher_pro.png
+
+: Jump between writing PoCs/Demos and real life prod ready web scale applications
+: Go lacks some appeal to larger (not enterprise) organizations
+: digress for a minute
+
+* µservices
+
+: who is using/familiar?
+: why the recent hype?
+: SOA & DDD. Agile & DevOps. Containers & Programmable Infra
+
+* Let's get Philosophical
+
+: Organization and Culture must embrace
+: Automation. CI/CD
+: Each service should be...
+
+* Elastic
+
+.image images/gopher.jpg 500 100
+
+: scale easily and independently
+: avoid state
+: load balancing
+
+* Resilient
+
+.image images/gopher_resilient.jpg _ 600
+
+: embrace errors and failure
+: "Be Conservative in what you send, be liberal in what you accept"
+: Circuit breakers
+
+* Composable
+
+.image images/gopher_composable.jpg
+
+: A microservice is not an application
+: Must interact with other pieces.
+: Networking, service discovery.
+
+
+* Minimal
+
+.image images/gopher.jpg 50 _
+
+: "Everything Should Be Made as Simple as Possible, But Not Simpler”
+
+* Complete
+
+.background images/gopher_complete.jpg
+
+: Complete within domain
+: Have all pieces expected of a production ready service
+: logging, monitoring, etc
+
+* 
+
+.image images/allTheTech.png
+
+: MS promise, use any tech
+: but... need some consistency
+: ... switching Threads
+
+* 
+
+.background images/sockshop-frontend.png
+
+: DockerCon demo - 2 weeks, lots of tech, aggressively MS
+: post conf, keep going, -> Reference App
+
+* Payment "Service"
+
+.code code/payment.go
+
+: not prod ready :)
+: how to get there?
+
+* Go Kit
+
+_A_toolkit_for_microservices_
+
+__
+
+“... a collection of Go packages that help you build robust, reliable, maintainable microservices.”
+
+
+
+
+* Architecture
+
+.image images/goKitOnion.png 500 _
+
+* Service Layer (1/2)
+
+- Define our exposing service 
+- Includes Business/Application logic
+
+.code code/service.go /START OMIT/,/END OMIT/
+
+* Service Layer (2/2)
+
+.code code/service.go /START 2-OMIT/,/END 2-OMIT/
+
+* Endpoint Layer (1/2)
+
+An Endpoint is an RPC abstraction on top of our methods.
+
+.code code/endpoints.go /START OMIT/,/END OMIT/
+
+* Endpoint Layer (2/2)
+
+.code code/endpoints.go /START 2-OMIT/,/END 2-OMIT/
+
+* Transport Layer (1/2)
+
+.code code/transport.go /START OMIT/,/END OMIT/
+
+* Transport Layer (2/2)
+
+.code code/transport.go /START 2-OMIT/,/END 2-OMIT/
+
+* Main
+
+.code code/main.go /START OMIT/,/END OMIT/
+
+* Pluggable Middleware
+
+Strong benefit of GoKit
+
+E.g. Logging
+
+.code code/middlewares.go /START OMIT/,/END OMIT/
+
+* Custom application logging
+
+.code /code/middlewares.go /START 2-OMIT/,/END 2-OMIT/
+
+* Additional built-in features
+
+- Circuit Breakers
+- Rate Limiting
+- Load Balancing
+- Service Discovery
+- Monitoring
+
+* Overall experience
+
+- Initial Learning Curve
+- Boilerplate
+- Frameworks in Go?
+
+- Encourages low coupling/ high cohesion
+- Optional MS features
+- Pluggable middleware FTW
+- Great for new Gophers
+- Makes Go attractive to big orgs 
+
+: code gen is coming
+: is not a framework?
+: use common code for 'plumbing'
+: encorages proper go idioms
+
+
+* Take it for a spin!
+
+.link https://gokit.io gokit.io
+.link https://github.com/microservices-demo/
