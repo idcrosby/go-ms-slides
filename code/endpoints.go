@@ -42,7 +42,6 @@ type listRequest struct {
 	PageNum  int      `json:"pageNum"`
 	PageSize int      `json:"pageSize"`
 }
-
 type listResponse struct {
 	Socks []Sock `json:"sock"`
 	Err   error  `json:"err"`
@@ -51,7 +50,6 @@ type listResponse struct {
 type getRequest struct {
 	ID string `json:"id"`
 }
-
 type getResponse struct {
 	Sock Sock  `json:"sock"`
 	Err  error `json:"err"`

@@ -93,8 +93,6 @@ func decodeGetRequest(_ context.Context, r *http.Request) (interface{}, error) {
 	}, nil
 }
 
-// encodeGetResponse is distinct from the generic encodeResponse because we need
-// to special-case when the getResponse object contains a non-nil error.
 func encodeGetResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 	resp := response.(getResponse)
 	if resp.Err != nil {
@@ -102,6 +100,11 @@ func encodeGetResponse(ctx context.Context, w http.ResponseWriter, response inte
 		return nil
 	}
 	return encodeResponse(ctx, w, resp.Sock)
+}
+
+func encodeResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
+	w.Header().Set("Content-Type", "application/json; charset=utf-8")
+	return json.NewEncoder(w).Encode(response)
 }
 // END 2-OMIT
 
@@ -111,10 +114,4 @@ func decodeHealthRequest(_ context.Context, r *http.Request) (interface{}, error
 
 func encodeHealthResponse(ctx context.Context, w http.ResponseWriter, response interface{}) error {
 	return encodeResponse(ctx, w, response.(healthResponse))
-}
-
-func encodeResponse(_ context.Context, w http.ResponseWriter, response interface{}) error {
-	// All of our response objects are JSON serializable, so we just do that.
-	w.Header().Set("Content-Type", "application/json; charset=utf-8")
-	return json.NewEncoder(w).Encode(response)
 }

@@ -25,8 +25,7 @@ func main() {
 
 	db, err := sqlx.Open("mysql", *dsn)
 	if err != nil {
-		logger.Log("err", err)
-		os.Exit(1)
+		logger.Fatal("Database error: ", err)
 	}
 	defer db.Close()
 

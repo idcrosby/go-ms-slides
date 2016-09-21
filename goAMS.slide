@@ -36,6 +36,12 @@ Ian Crosby
 
 : who is using/familiar?
 : why the recent hype?
+
+* Combination on Influences
+
+.image images/ms_influence.png 400 _
+
+: shittiest Venn diagram
 : SOA & DDD. Agile & DevOps. Containers & Programmable Infra
 
 * Let's get Philosophical
@@ -56,7 +62,7 @@ _"Write_programs_that_do_one_thing_and_do_it_well.”_
 
 * Resilient
 
-.image images/gopher_resilient.jpg _ 600
+.image images/gopher_resilient.jpg _ 500
 
 : embrace errors and failure
 : "Be Conservative in what you send, be liberal in what you accept"
@@ -64,7 +70,7 @@ _"Write_programs_that_do_one_thing_and_do_it_well.”_
 
 * Composable
 
-.image images/gopher_composable.jpg
+.image images/gopher_composable.png
 
 : A microservice is not an application
 : Must interact with other pieces.
@@ -73,9 +79,10 @@ _"Write_programs_that_do_one_thing_and_do_it_well.”_
 
 * Minimal
 
-.image images/gopher.jpg 50 _
+.image images/gopher_min.png 200 _
 
 : "Everything Should Be Made as Simple as Possible, But Not Simpler”
+: Proper patterns and idioms to guide us
 
 * Complete
 
@@ -95,7 +102,7 @@ _"Write_programs_that_do_one_thing_and_do_it_well.”_
 
 * 
 
-.background images/sockshop-frontend.png
+.background images/sockshop.png
 
 : DockerCon demo - 2 weeks, lots of tech, aggressively MS
 : post conf, keep going, -> Reference App
@@ -111,21 +118,26 @@ _"Write_programs_that_do_one_thing_and_do_it_well.”_
 
 _A_toolkit_for_microservices_
 
+.image images/gokit.png
+
 __
 
 “... a collection of Go packages that help you build robust, reliable, maintainable microservices.”
 
 : Defines a layered structure for your services
 : Provides packages for MS related tooling/features
-: Encourages certain patterns and idioms
+: Encourages proper patterns and idioms
+: is not a framework?
 
 
-* Architecture
+* Service as an Onion
 
 .image images/goKitOnion.png 500 _
 
 : Models microservice like an onion
-: Separates GoKits domain from Application/Business domain
+: Focus on Business Logic
+: Separates GoKits domain from Developers domain
+: Features we looked at earlier taken care of by GoKit
 
 * Service Layer (1/2)
 
@@ -134,9 +146,14 @@ __
 
 .code code/service.go /START OMIT/,/END OMIT/
 
+: Starting at the innermost level
+: Service ~ Go Interface
+
 * Service Layer (2/2)
 
 .code code/service.go /START 2-OMIT/,/END 2-OMIT/
+
+: Our Business/Application domain and logic
 
 * Endpoint Layer (1/2)
 
@@ -144,33 +161,56 @@ An Endpoint is an RPC abstraction on top of our methods.
 
 .code code/endpoints.go /START OMIT/,/END OMIT/
 
-* Endpoint Layer (2/2)
+: A Function: takes context and request. Returns response and error
+: Adapter to convert method to endpoint
+
+*    
 
 .code code/endpoints.go /START 2-OMIT/,/END 2-OMIT/
+
+: Basic Request/Response object
 
 * Transport Layer (1/2)
 
 .code code/transport.go /START OMIT/,/END OMIT/
 
+: Abstract the transportation/protocol layer
+: Can use anything (HTTP/Rest in this case)
+: build GoLang HTTP Handlers
+
 * Transport Layer (2/2)
 
 .code code/transport.go /START 2-OMIT/,/END 2-OMIT/
+
+: decode/encode simply converts from specific transport type to internal model
 
 * Main
 
 .code code/main.go /START OMIT/,/END OMIT/
 
+: wire everything together
+: create context, service, endpoints
+: mount them
+
 * Pluggable Middleware
 
-Strong benefit of GoKit
+Main advantage of GoKit
 
 E.g. Logging
 
 .code code/middlewares.go /START OMIT/,/END OMIT/
 
+: Logging is not optional.
+: Leverage middleware to create logger.
+
 * Custom application logging
 
+Middleware implements our existing service
+
 .code /code/middlewares.go /START 2-OMIT/,/END 2-OMIT/
+
+: Implement our existing service.
+: Have access to request/response to log interesting pieces
 
 * Additional built-in features
 
@@ -180,7 +220,8 @@ E.g. Logging
 - Service Discovery
 - Monitoring
 
-: To try out
+: All the standard plumbing required in microservice
+: ... to try out
 : Some of these roles played by orchestrator
 
 * Overall experience
@@ -189,8 +230,9 @@ E.g. Logging
 - Boilerplate
 - Frameworks in Go?
 
-- Encourages low coupling/ high cohesion
-- Optional MS features
+
+- Encourages low coupling / high cohesion
+- Optional microservice-y features
 - Pluggable middleware FTW
 - Great for new Gophers
 - Makes Go attractive to big orgs 
@@ -207,3 +249,4 @@ E.g. Logging
 .link https://github.com/microservices-demo/
 
 : Call to arms
+: View more 'real life' services
